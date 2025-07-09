@@ -1,15 +1,12 @@
+import { Link } from 'react-router-dom';
+
 export default function PokemonCard({ pokemon }) {
   return (
-    <div className="card text-center">
-      <img
-        src={pokemon.sprites?.front_default}
-        className="card-img-top p-3"
-        alt={pokemon.name}
-      />
-      <div className="card-body">
-        <h5 className="card-title text-capitalize">{pokemon.name}</h5>
-        <p className="card-text">ID: {pokemon.id}</p>
+    <Link to={`/pokemon/${pokemon.name}`}>
+      <div className="bg-white rounded-lg shadow hover:shadow-xl p-4 text-center">
+        <img src={pokemon.sprites?.front_default} alt={pokemon.name} className="w-24 h-24 mx-auto" />
+        <h2 className="capitalize font-bold mt-2">{pokemon.name}</h2>
       </div>
-    </div>
+    </Link>
   );
 }

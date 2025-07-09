@@ -1,99 +1,134 @@
-# 🧩 Proyecto React: Pokédex con PokéAPI
+# 📦 Proyecto React Pokédex con Tailwind y React Router
 
-En este proyecto construiremos una Pokédex usando React, Bootstrap y la PokéAPI. Aprenderemos a estructurar componentes, usar `useEffect` para llamadas a API, y trabajar con servicios separados.
-
----
-
-## 🚀 Tecnologías utilizadas
-
-- React + Vite
-- Bootstrap
-- PokéAPI
-- Fetch API
-- Hooks: `useState`, `useEffect`
+Este proyecto es una Pokédex básica construida con **React + Vite**, usando **Tailwind CSS** para estilos y **React Router** para navegación entre vistas.
 
 ---
 
-## 🧱 Estructura del proyecto
-
-```
-src/
-├── components/
-│   ├── PokemonCard.jsx       # Tarjeta individual de Pokémon
-│   └── PokemonList.jsx       # Lista de todos los Pokémon
-├── services/
-│   └── pokeapi.js            # Funciones para consumir PokéAPI
-├── App.jsx
-└── main.jsx
-```
-
----
-
-## 📦 Instalación del proyecto
+## 🚀 Instalación del Proyecto
 
 ```bash
-npm create vite@latest pokedex 
+npm create vite@latest pokedex
 cd pokedex
 npm install
-npm install bootstrap
 ```
+
+Elige `React` como framework y `JavaScript` como lenguaje.
 
 ---
 
-## ⚙️ Importaciones necesarias en `main.jsx`
+## 🎨 Tailwind + React + Vite
+
+Seguir la documentación oficial de instalación:  
+👉 [https://tailwindcss.com/docs/installation/using-vite](https://tailwindcss.com/docs/installation/using-vite)
+
+### Archivos clave:
+
+#### `main.jsx`
+
+Asegúrate de importar Tailwind en el punto de entrada:
 
 ```jsx
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import './index.css'
+```
 
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
+#### `index.css`
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+```css
+import @import "tailwindcss";
 ```
 
 ---
 
-## 🔌 Servicio para consumir la API
+## 💡 ¿Cómo funciona Tailwind?
 
-`src/services/pokeapi.js`
+Tailwind te permite usar clases utilitarias directamente en tu JSX. Por ejemplo:
 
-```js
-const API_URL = 'https://pokeapi.co/api/v2';
+```jsx
+<div className="bg-blue-500 text-white p-4 rounded shadow">
+  Hola mundo con Tailwind
+</div>
+```
 
-export async function getPokemons(limit = 20, offset = 0) {
-  const response = await fetch(`${API_URL}/pokemon?limit=${limit}&offset=${offset}`);
-  const data = await response.json();
-  return data.results;
-}
+- `bg-blue-500`: fondo azul
+- `text-white`: texto blanco
+- `p-4`: padding
+- `rounded`: bordes redondeados
+- `shadow`: sombra
 
-export async function getPokemonByUrl(url) {
-  const response = await fetch(url);
-  const data = await response.json();
-  return data;
-}
+Puedes construir interfaces responsivas fácilmente:
+
+```jsx
+<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+  {/* tarjetas aquí */}
+</div>
 ```
 
 ---
 
+## 🧭 Navegación con React Router
 
-## 🎯 Conceptos clave aprendidos
+### 1. Instalación
 
-- Uso de `useEffect` para llamadas iniciales a API
-- `Promise.all` para ejecutar múltiples peticiones en paralelo
-- Separación de lógica de negocio en un archivo de servicios
-- Renderizado de listas con `.map()` y componentes individuales
+```bash
+npm install react-router-dom
+```
+
+### 2. Envolvemos `App` con `BrowserRouter` en `main.jsx`
+
+```jsx
+import { BrowserRouter } from 'react-router-dom';
+
+<BrowserRouter>
+  <App />
+</BrowserRouter>
+```
+
+### 3. Definimos las rutas en `App.jsx`
+
+```jsx
+import { Routes, Route } from 'react-router-dom';
+import PokemonList from './components/PokemonList';
+import PokemonPage from './components/PokemonPage';
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<PokemonList />} />
+      <Route path="/pokemon/:name" element={<PokemonPage />} />
+    </Routes>
+  );
+}
+```
+
+### 4. Navegamos desde una tarjeta
+
+```jsx
+import { Link } from 'react-router-dom';
+
+<Link to={`/pokemon/${pokemon.name}`}>
+  <div className="...">...</div>
+</Link>
+```
+
+### 5. Vista de detalle con botón "Volver"
+
+```jsx
+import { useParams, useNavigate } from 'react-router-dom';
+
+const navigate = useNavigate();
+const { name } = useParams();
+
+<button onClick={() => navigate(-1)}>
+  ← Volver
+</button>
+```
 
 ---
 
-## 🌟 Extensiones sugeridas
+## ✅ ¿Qué se logra?
 
-- Agregar paginación
-- Agregar barra de búsqueda por nombre
-- Mostrar detalles en un modal
-- Filtrar por tipo (agua, fuego, etc.)
+- Una Pokédex responsive con Tailwind
+- Navegación entre la lista y el detalle de Pokémon
+- Uso práctico de `useParams`, `useNavigate`, y `Link`
+
+---
